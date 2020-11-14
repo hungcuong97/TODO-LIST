@@ -1,21 +1,41 @@
 <template>
   <div id="task">
     <h1>Quản lý công việc</h1>
+    <el-row>
+      <!-- Input tìm kiếm dữ liệu bảng công việc -->
+      <el-col :span="4">
+        <el-input
+          class="input-search"
+          size="small"
+          placeholder="Nhập từ tìm kiếm"
+          v-model="search"
+        />
+      </el-col>
+      <!-- Button thêm công việc -->
+      <el-col :offset="14" :span="6">
+        <CreateTask />
+      </el-col>
+    </el-row>
+
     <el-table
       :data="
         tableData.filter(
           (data) =>
-            !search || data.name.toLowerCase().includes(search.toLowerCase())
+            !search ||
+            data.name.toLowerCase().includes(search.toLowerCase()) ||
+            data.description.toLowerCase().includes(search.toLowerCase()) ||
+            data.startDate.toLowerCase().includes(search.toLowerCase()) ||
+            data.endDate.toLowerCase().includes(search.toLowerCase())
         )
       "
       style="width: 100%"
     >
-      <el-table-column label="Date" prop="date"> </el-table-column>
-      <el-table-column label="Name" prop="name"> </el-table-column>
-      <el-table-column align="right">
-        <template slot="header">
-          <el-input v-model="search" size="mini" placeholder="Type to search" />
-        </template>
+      <el-table-column label="Tên công việc" prop="name"> </el-table-column>
+      <el-table-column label="Mô tả công việc" prop="description">
+      </el-table-column>
+      <el-table-column label="Ngày bắt đầu" prop="startDate"> </el-table-column>
+      <el-table-column label="Ngày kết thúc" prop="endDate"> </el-table-column>
+      <el-table-column align="center" label="Hành động">
         <template>
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
             >Edit</el-button
@@ -33,30 +53,39 @@
 </template>
 
 <script>
+import CreateTask from "./CreateTask.vue";
+
 export default {
   name: "Task",
+  components: {
+    CreateTask,
+  },
   data() {
     return {
       tableData: [
         {
-          date: "2016-05-03",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
+          name: "Công việc 1",
+          description: "Miêu tả công việc 1",
+          startDate: "2020-11-11",
+          endDate: "2020-11-30",
         },
         {
-          date: "2016-05-02",
-          name: "John",
-          address: "No. 189, Grove St, Los Angeles",
+          name: "Công việc 2",
+          description: "Miêu tả công việc 2",
+          startDate: "2020-10-12",
+          endDate: "2020-11-25",
         },
         {
-          date: "2016-05-04",
-          name: "Morgan",
-          address: "No. 189, Grove St, Los Angeles",
+          name: "Công việc 3",
+          description: "Miêu tả công việc 3",
+          startDate: "2020-10-25",
+          endDate: "2020-12-10",
         },
         {
-          date: "2016-05-01",
-          name: "Jessy",
-          address: "No. 189, Grove St, Los Angeles",
+          name: "Công việc 4",
+          description: "Miêu tả công việc 4",
+          startDate: "2020-11-15",
+          endDate: "2020-12-30",
         },
       ],
       search: "",
@@ -76,6 +105,10 @@ export default {
 </script>
 
 <style>
+.input-search {
+  margin-bottom: 10px;
+}
+
 #task > h1 {
   margin-top: 0;
   margin-bottom: 10px;
