@@ -1,8 +1,8 @@
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Task from './modules/task/Task.vue'
-import Home from './modules/home/Home.vue'
+import Task from '../modules/task/Task.vue'
+import Home from '../modules/home/Home.vue'
 
 Vue.use(VueRouter)
 

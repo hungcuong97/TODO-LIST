@@ -13,7 +13,15 @@
       </el-col>
       <!-- Button thêm công việc -->
       <el-col :offset="14" :span="6">
-        <CreateTask />
+        <CreateEditTaskModal
+          sizeButton="small"
+          classButton="pull-right"
+          nameButton="Thêm mới công việc"
+          titleModal="Thêm mới công việc"
+          typeButton="success"
+          :form="addTask"
+          @save="handleAddTask"
+        />
       </el-col>
     </el-row>
 
@@ -35,15 +43,23 @@
       </el-table-column>
       <el-table-column label="Ngày bắt đầu" prop="startDate"> </el-table-column>
       <el-table-column label="Ngày kết thúc" prop="endDate"> </el-table-column>
-      <el-table-column align="center" label="Hành động">
-        <template>
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >Edit</el-button
-          >
+      <el-table-column label="Hành động">
+        <template slot-scope="scope" class="inline-flex">
+          <!-- Chỉnh sửa công việc -->
+          <CreateEditTaskModal
+            sizeButton="mini"
+            nameButton="Edit"
+            titleModal="Chỉnh sửa công việc"
+            :form="editTask"
+            @save="handleEditTask"
+            @clickButton="clickEdit(scope.$index, scope.row)"
+          />
+          <!-- Xóa công việc -->
           <el-button
+            id="delete"
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
+            @click="clickDelete(scope.$index)"
             >Delete</el-button
           >
         </template>
@@ -53,15 +69,33 @@
 </template>
 
 <script>
-import CreateTask from "./CreateTask.vue";
+import CreateEditTaskModal from "./CreateEditTaskModal.vue";
+import { formatDate } from "../../helper/formatDatePicker";
 
 export default {
   name: "Task",
   components: {
-    CreateTask,
+    CreateEditTaskModal,
   },
   data() {
     return {
+      sizeButtonAddTask: "min",
+
+      addTask: {
+        name: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+      },
+
+      rowEdit: "",
+      editTask: {
+        name: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+      },
+
       tableData: [
         {
           name: "Công việc 1",
@@ -94,11 +128,36 @@ export default {
   },
 
   methods: {
-    handleEdit(index, row) {
-      console.log(index, row);
+    handleAddTask(data) {
+      data.startDate = formatDate(data.startDate);
+      data.endDate = formatDate(data.endDate);
+      this.tableData = [...this.tableData, data];
+      this.addTask = {
+        name: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+      };
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+
+    handleEditTask(data) {
+      data.startDate = formatDate(data.startDate);
+      data.endDate = formatDate(data.endDate);
+      this.tableData.splice(this.rowEdit, 1, data);
+    },
+
+    clickEdit(index, row) {
+      this.rowEdit = index;
+      this.editTask = {
+        name: row.name,
+        description: row.description,
+        startDate: row.startDate,
+        endDate: row.endDate,
+      };
+    },
+
+    clickDelete(index) {
+      this.tableData.splice(index, 1);
     },
   },
 };
@@ -113,5 +172,13 @@ export default {
   margin-top: 0;
   margin-bottom: 10px;
   font-size: 24px;
+}
+
+.cell {
+  display: inline-flex;
+}
+
+#delete {
+  margin-left: 10px;
 }
 </style>

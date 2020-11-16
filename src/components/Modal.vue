@@ -4,7 +4,7 @@
       :class="classButton"
       :size="sizeButton"
       :type="typeButton"
-      @click="dialogFormVisible = true"
+      @click="clickButton"
     >
       {{ nameButton }}</el-button
     >
@@ -18,12 +18,9 @@
         }}</el-button>
 
         <!-- Button save -->
-        <el-button
-          size="small"
-          type="primary"
-          @click="dialogFormVisible = false"
-          >{{ nameSaveButton }}</el-button
-        >
+        <el-button size="small" type="primary" @click="save">{{
+          nameSaveButton
+        }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -40,23 +37,18 @@ export default {
   props: {
     nameButton: {
       type: String,
-      default: "Thêm mới",
     },
     typeButton: {
       type: String,
-      default: "success",
     },
     sizeButton: {
       type: String,
-      default: "small",
     },
     classButton: {
       type: String,
-      default: "",
     },
     titleModal: {
       type: String,
-      default: "Thêm mới",
     },
     nameCloseButton: {
       type: String,
@@ -65,6 +57,17 @@ export default {
     nameSaveButton: {
       type: String,
       default: "Lưu",
+    },
+  },
+
+  methods: {
+    save() {
+      this.dialogFormVisible = false;
+      this.$emit("save");
+    },
+    clickButton() {
+      this.dialogFormVisible = true;
+      this.$emit("clickButton");
     },
   },
 };
