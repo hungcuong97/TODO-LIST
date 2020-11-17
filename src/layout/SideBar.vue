@@ -14,7 +14,7 @@
         @click="handleMenu(item.path)"
       >
         <i :class="item.icon"></i>
-        <span> {{ item.name }}</span>
+        <span>{{ item.name }}</span>
       </el-menu-item>
     </el-menu>
   </div>

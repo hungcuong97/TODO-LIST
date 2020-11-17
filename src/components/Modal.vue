@@ -6,21 +6,21 @@
       :type="typeButton"
       @click="clickButton"
     >
-      {{ nameButton }}</el-button
-    >
+      {{ nameButton }}
+    </el-button>
     <el-dialog :title="titleModal" :visible.sync="dialogFormVisible">
       <slot name="content-modal"> </slot>
 
       <span slot="footer" class="dialog-footer">
         <!-- Button close modal -->
-        <el-button size="small" @click="dialogFormVisible = false">{{
-          nameCloseButton
-        }}</el-button>
+        <el-button size="small" @click="dialogFormVisible = false">
+          {{ nameCloseButton }}
+        </el-button>
 
         <!-- Button save -->
-        <el-button size="small" type="primary" @click="save">{{
-          nameSaveButton
-        }}</el-button>
+        <el-button size="small" type="primary" @click="save">
+          {{ nameSaveButton }}
+        </el-button>
       </span>
     </el-dialog>
   </div>

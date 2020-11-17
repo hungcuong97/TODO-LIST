@@ -11,6 +11,7 @@
           v-model="search"
         />
       </el-col>
+
       <!-- Button thêm công việc -->
       <el-col :offset="14" :span="6">
         <CreateEditTaskModal
@@ -54,6 +55,7 @@
             @save="handleEditTask"
             @clickButton="clickEdit(scope.$index, scope.row)"
           />
+
           <!-- Xóa công việc -->
           <el-button
             id="delete"
